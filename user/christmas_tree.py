@@ -7,8 +7,14 @@ import pygame
 pygame.init()
 WIDTH, HEIGHT = 800, 900
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("3D Neon Particle Christmas Tree - Fixed Gifts")
+pygame.display.set_caption("3D Neon Particle Christmas Tree - Happy New Year")
 clock = pygame.time.Clock()
+
+# 폰트 설정 (HAPPY NEW YEAR! 텍스트용)
+try:
+    font = pygame.font.SysFont("arial", 46, bold=True)
+except Exception:
+    font = pygame.font.Font(None, 54)
 
 tree_particles = []  # 회전하는 파티클 (나뭇잎 + 나무 몸통)
 gift_particles = []  # 고정된 파티클 (선물 상자)
@@ -205,6 +211,24 @@ while running:
         px = int(WIDTH / 2 + rx * scale)
         py = int(HEIGHT / 2 + sy_3d * scale)
         pygame.draw.circle(screen, (255, 240, 150), (px, py), max(1, int(2.5 * scale)))
+
+    # 6. 하단 "HAPPY NEW YEAR!" 네온 텍스트 그리기
+    text_str = "HAPPY NEW YEAR!"
+    pulse = 0.85 + 0.15 * math.sin(pygame.time.get_ticks() * 0.005)
+    
+    # 네온 금빛 메인 색상 & 바깥쪽 후광 색상
+    main_color = (int(255 * pulse), int(225 * pulse), int(110 * pulse))
+    glow_color = (int(180 * pulse), int(110 * pulse), int(20 * pulse))
+
+    glow_surf = font.render(text_str, True, glow_color)
+    main_surf = font.render(text_str, True, main_color)
+
+    text_rect = main_surf.get_rect(center=(WIDTH // 2, HEIGHT - 55))
+
+    # 상하좌우로 약간씩 어긋나게 겹쳐 그려서 네온 발광 효과 연출
+    for dx, dy in [(-2, 0), (2, 0), (0, -2), (0, 2), (-2, -2), (2, 2), (-2, 2), (2, -2)]:
+        screen.blit(glow_surf, text_rect.move(dx, dy))
+    screen.blit(main_surf, text_rect)
 
     pygame.display.flip()
 
