@@ -555,7 +555,7 @@ while running:
         pygame.draw.circle(screen, (255, 240, 150), (px, py), max(1, int(2.5 * scale)))
 
     # 9. 하단 네온 텍스트 그리기
-    text_str = "Merry Christmas!"
+    text_str = "Merry Christmas "
     pulse = 0.85 + 0.15 * math.sin(now_ms * 0.005)
     
     main_color = (int(255 * pulse), int(225 * pulse), int(110 * pulse))
